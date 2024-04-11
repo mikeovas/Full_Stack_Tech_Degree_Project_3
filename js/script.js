@@ -38,7 +38,7 @@ form.addEventListener("submit", (e) => {
   const validator = (validationFunction, inputHint) => {
     if(validationFunction()) {
 
-      inputHint.nextElementSibling.style.display = 'none';
+      inputHint.style.display = 'none';
     } else {
       e.preventDefault();
       inputHint.classList.add('hint');
