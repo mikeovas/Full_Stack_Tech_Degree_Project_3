@@ -58,15 +58,20 @@ form.addEventListener("submit", (e) => {
 tshirtColor.parentElement.style.display = "none";
 
 
+
 // Select color of t-shirt based on design
 tshirtDesign.addEventListener('change', (e) => {
     const selectedDesign = e.target.value;
 
     console.log(selectedDesign);
     console.log(colorOptions);
+    tshirtColor.parentElement.style.display = "block";
+    tshirtColor.firstElementChild.style.display = "hidden";
+  
+
 
     // Hide all color options before showing the selected options
-    colorOptions.forEach(option => {
+    colorOptions.forEach( (option) => {
         option.style.display = 'none';
     });
 
@@ -75,7 +80,7 @@ tshirtDesign.addEventListener('change', (e) => {
 
     console.log(colorOptionsToShow);
 
-    colorOptionsToShow.forEach(option => {
+    colorOptionsToShow.forEach( (option) => {
         option.style.display = 'block';
     });
 });
