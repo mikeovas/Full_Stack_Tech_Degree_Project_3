@@ -57,11 +57,6 @@ form.addEventListener("submit", (e) => {
 // Initially hide the t-shirt color input and label
 tshirtColor.parentElement.style.display = "none";
 
-// Initially hide all color options
-
-colorOptions.forEach(option => {
-    option.style.display = 'none';
-});
 
 // Select color of t-shirt based on design
 tshirtDesign.addEventListener('change', (e) => {
@@ -79,7 +74,7 @@ tshirtDesign.addEventListener('change', (e) => {
     const colorOptionsToShow = document.querySelectorAll(`#color option[data-theme="${selectedDesign}"]`);
 
     console.log(colorOptionsToShow);
-    
+
     colorOptionsToShow.forEach(option => {
         option.style.display = 'block';
     });
