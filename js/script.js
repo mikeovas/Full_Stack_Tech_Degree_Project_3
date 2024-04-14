@@ -28,6 +28,7 @@ jobRole.addEventListener('change', (e) => {
         otherJobRole.style.display = "block";
         } 
     });
+
     
 //**Text Box Input Validation Functions**//
 
@@ -52,34 +53,29 @@ form.addEventListener("submit", (e) => {
 });
 
 
-
+//*** Tshirt Design & Color Selection ***/
 
 // Initially hide the t-shirt color input and label
 tshirtColor.parentElement.style.display = "none";
 
-
-
-// Select color of t-shirt based on design
+// Selection of color of t-shirt based on design selection
 tshirtDesign.addEventListener('change', (e) => {
     const selectedDesign = e.target.value;
-
-    console.log(selectedDesign);
-    console.log(colorOptions);
     tshirtColor.parentElement.style.display = "block";
-    tshirtColor.firstElementChild.style.display = "hidden";
-  
 
-
+    console.log(tshirtColor.firstElementChild);  //this is selecting the select a design theme option - this is the line i dont want to display when the colors are displayed once the design is selected
+    tshirtColor.firstElementChild.style.display = "none";  // thought this code would prevent that line from being displayed
+    
     // Hide all color options before showing the selected options
-    colorOptions.forEach( (option) => {
+        colorOptions.forEach( (option) => {
         option.style.display = 'none';
     });
 
     // Show color options specific to the selected design
     const colorOptionsToShow = document.querySelectorAll(`#color option[data-theme="${selectedDesign}"]`);
-
+ 
     console.log(colorOptionsToShow);
-
+   
     colorOptionsToShow.forEach( (option) => {
         option.style.display = 'block';
     });
@@ -87,207 +83,5 @@ tshirtDesign.addEventListener('change', (e) => {
 
 
 
-
-
-
-
-// // // Initially hide the t-shirt color input
-// tshirtColor.parentElement.style.display = "none";
-
-
-// // Initially hide all color options
-
-// // colorOptions.forEach(option => {
-// //     option.style.display = 'none';
-// // });
-
-
-// // Select color of t-shirt based on design
-// tshirtDesign.addEventListener('change', (e) => {
-//     const selectedDesign = e.target.value;
-
-//     // // Hide all color options
-//     // colorOptions.forEach(option => {
-//     //     option.style.display = 'block';
-//     // });
-
-//     // Show color options specific to the selected design
-//     const colorOptionsToShow = document.querySelectorAll(`#color option[data-theme="${selectedDesign}"]`);
-//     console.log(colorOptionsToShow);
-//     colorOptionsToShow.forEach(option => {
-//         option.style.display = 'block';
-//     });
-// });
-
-
-
-
-
-
-// // //**T-shirt color and design section **//
-
-// // //Initially hides the tshirt color input
-// // tshirtColor.parentElement.style.display = "none";
-
-
-
-// // // Initially hide all color options
-
-// // // colorOptions.forEach(option => {
-// // //     option.style.display = 'none';
-// // // });
-
-// // // Select color of t-shirt based on design
-// // tshirtDesign.addEventListener('change', (e) => {
-// //     const selectedDesign = e.target.value;
-
-//     // // Hide all color options
-//     // colorOptions.forEach(option => {
-//     //     option.style.display = 'none';
-//     // });
-
-//     // Show color options specific to the selected design
-//     const colorOptionsToShow = document.querySelectorAll(`#color option[data-theme="${selectedDesign}"]`);
-//     console.log(colorOptionsToShow);
-//     colorOptionsToShow.forEach(option => {
-//         option.style.display = 'block';
-//     });
-// });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-// //**T-shirt color and design section **//
-
-// //Initially hides the tshirt color input
-// tshirtColor.parentElement.style.display = "none";
-
-// //Select color of tshirt based on design//
-// tshirtDesign.addEventListener('change', (e) => {
-//   const selectedDesign = e.target.value;
-
-//   if(selectedDesign === "js puns") {
-//     tshirtColor.parentElement.style.display = "block";
-//   } else {
-//     if(selectedDesign === "heart js") {
-//       tshirtColor.parentElement.style.display = "block";
-//     }}
-// });
-
-
-
-
-// // Select color of t-shirt based on design
-// tshirtDesign.addEventListener('change', (e) => {
-//   const selectedDesign = e.target.value;
-//     // tshirtColor.parentElement.style.display = "block";
-//     // heartJsOptions.style.display = "hidden";
-//   jsPunsOptions.forEach(color => {
-//     color.style.display = "block";
-//   }) 
-
-//   // Update color options based on selected design
-//   if (selectedDesign === "js puns") {
-//     // Show t-shirt color input
-//     // tshirtColor.parentElement.style.display = "block";
-//     // Update color options for "js puns" design
-
-
- 
-//     // updateColorOptions(["Cornflower Blue", "Dark Slate Grey", "Gold"]);
-//   } else if (selectedDesign === "heart js") {
-//     // Show t-shirt color input
-//     // tshirtColor.parentElement.style.display = "block";
-//     // Update color options for "heart js" design
-//     heartJsOptions.style.display = "block";
-//     jsPunsOptions.style.display = "hidden"; 
-//     // updateColorOptions(["Tomato", "Steel Blue", "Dim Grey"]);
-//   } else {
-//     // Hide t-shirt color input for other designs
-//     tshirtColor.parentElement.style.display = "none";
-//   }
-// });
-
-// // // Function to update color options
-// // function updateColorOptions(colors) {
-// //   // Remove existing options
-// //   while (tshirtColor.options.length > 0) {
-// //     tshirtColor.remove(0);
-// //   }
-
-// //   // Add new options
-// //   const option = document.querySelectorAll("option");
-// //   colors.forEach(color => {
-    
-// //     option.text = color;
-// //     tshirtColor.add(option);
-// //   });
-// // }
-
-
-
-
-
-
-
-
-
-
-
-// // Select color of t-shirt based on design
-// tshirtDesign.addEventListener('change', (e) => {
-//   const selectedDesign = e.target.value;
-  
-//   // Update color options based on selected design
-//   if (selectedDesign === "js puns") {
-//     // Show t-shirt color input
-//     tshirtColor.parentElement.style.display = "block";
-//     // Update color options for "js puns" design
-//     updateColorOptions(["Cornflower Blue", "Dark Slate Grey", "Gold"]);
-//   } else if (selectedDesign === "heart js") {
-//     // Show t-shirt color input
-//     tshirtColor.parentElement.style.display = "block";
-//     // Update color options for "heart js" design
-//     updateColorOptions(["Tomato", "Steel Blue", "Dim Grey"]);
-//   } else {
-//     // Hide t-shirt color input for other designs
-//     tshirtColor.parentElement.style.display = "none";
-//   }
-// });
-
-// // Function to update color options
-// function updateColorOptions(colors) {
-//   // Remove existing options
-//   while (tshirtColor.options.length > 0) {
-//     tshirtColor.remove(0);
-//   }
-//   // Add new options
-//   colors.forEach(color => {
-//     const option = document.createElement("option");
-//     option.text = color;
-//     tshirtColor.add(option);
-//   });
-// }
 
 
