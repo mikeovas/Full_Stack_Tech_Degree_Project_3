@@ -17,6 +17,8 @@ const tshirtColor = document.getElementById("color");
 const tshirtDesign = document.getElementById("design");
 const colorOptions = document.querySelectorAll('#color option');
 
+const jspFirsttoShow = document.querySelector(".jspFirstToShow");
+const heartFirsttoShow = document.querySelector(".heartFirstToShow");
 
 //Initially hides the text box for input of other job type
 otherJobRole.style.display = "none";
@@ -53,30 +55,27 @@ form.addEventListener("submit", (e) => {
 });
 
 
+
+
 //*** Tshirt Design & Color Selection ***/
 
-// Initially hide the t-shirt color input and label
-tshirtColor.parentElement.style.display = "none";
+// Initially diable the t-shirt color input
+tshirtColor.disabled = true;
 
 // Selection of color of t-shirt based on design selection
 tshirtDesign.addEventListener('change', (e) => {
     const selectedDesign = e.target.value;
-    tshirtColor.parentElement.style.display = "block";
-
-    console.log(tshirtColor.firstElementChild);  //this is selecting the select a design theme option - this is the line i dont want to display when the colors are displayed once the design is selected
-    tshirtColor.firstElementChild.style.display = "none";  // thought this code would prevent that line from being displayed
+    tshirtColor.disabled = false;
     
-    // Hide all color options before showing the selected options
-        colorOptions.forEach( (option) => {
-        option.style.display = 'none';
-    });
+    tshirtColor.firstElementChild.remove();   // remove the element so doesnt show
 
     // Show color options specific to the selected design
     const colorOptionsToShow = document.querySelectorAll(`#color option[data-theme="${selectedDesign}"]`);
- 
+
     console.log(colorOptionsToShow);
    
     colorOptionsToShow.forEach( (option) => {
+      console.log(option)
         option.style.display = 'block';
     });
 });
