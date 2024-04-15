@@ -17,8 +17,6 @@ let tshirtColor = document.getElementById("color");
 const tshirtDesign = document.getElementById("design");
 const colorOptions = document.querySelectorAll("#color option");
 
-const jspFirsttoShow = document.querySelector(".jspFirstToShow");
-const heartFirsttoShow = document.querySelector(".heartFirstToShow");
 
 //Initially hides the text box for input of other job type
 otherJobRole.style.display = "none";
@@ -55,33 +53,30 @@ form.addEventListener("submit", (e) => {
 });
 
 
-
-
 //*** Tshirt Design & Color Selection ***/
 
-// Initially diable the t-shirt color input
+// Initially diable the t-shirt color input //
 tshirtColor.disabled = true;
 
-// Selection of color of t-shirt based on design selection
+// Selection of color of t-shirt based on design selection //
+
 tshirtDesign.addEventListener('change', (e) => {
-    const selectedDesign = e.target.value;
-    tshirtColor.disabled = false;
+  const selectedDesign = e.target.value;
+  tshirtColor.disabled = false;
 
-
-    colorOptions.forEach( (option) => {
-      option.style.display = "none";
-      });
+  colorOptions.forEach( (option) => {
+    option.style.display = "none";   // remove all color options from the selection menu
+    });
    
-    colorOptions.forEach( (option) => {
-      let optionAttribute = option.getAttribute('data-theme');
+  colorOptions.forEach( (option) => {
+    let optionAttribute = option.getAttribute('data-theme');   //get data-theme attribute of all color options
 
-      if(selectedDesign === optionAttribute) {
-        option.style.display = "block";
-      } else {
-        option.style.display = "none";
-      }
-  
-  
+    if(selectedDesign === optionAttribute) {   // conditional to compare attribute of selected design to the attribute of all color options and only choose the colors for that design //
+      option.style.display = "block";
+    } else {
+      option.style.display = "none";
+    }
+      colorOptions[0].selected = true;   // put the Colors Available for Design Theme option back in as initial option
     });
 });
 
