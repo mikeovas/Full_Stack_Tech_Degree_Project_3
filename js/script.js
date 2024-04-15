@@ -67,34 +67,20 @@ tshirtDesign.addEventListener('change', (e) => {
     const selectedDesign = e.target.value;
     tshirtColor.disabled = false;
 
-    console.log(colorOptions);
 
     colorOptions.forEach( (option) => {
       option.style.display = "none";
       });
-
-
-
-
-    // Show color options specific to the selected design
-    // const colorOptionsToShow = document.querySelectorAll(`#color option[data-theme="${selectedDesign}"]`);
    
     colorOptions.forEach( (option) => {
-      // console.log(option);
-      // // console.log(option.getAttribute('data-theme'));
-      // console.log(`[data-theme="${selectedDesign}"]`);
-
       let optionAttribute = option.getAttribute('data-theme');
-      console.log(optionAttribute);
-
 
       if(selectedDesign === optionAttribute) {
-        console.log('attribute matches selection');
         option.style.display = "block";
       } else {
-        console.log('attribute doesn\'t selection');
         option.style.display = "none";
       }
+  
   
     });
 });
