@@ -15,7 +15,7 @@ const emailHint = document.getElementById("email-hint");
 
 let tshirtColor = document.getElementById("color");
 const tshirtDesign = document.getElementById("design");
-const colorOptions = document.querySelectorAll('#color option');
+const colorOptions = document.querySelectorAll("#color option");
 
 const jspFirsttoShow = document.querySelector(".jspFirstToShow");
 const heartFirsttoShow = document.querySelector(".heartFirstToShow");
@@ -66,13 +66,36 @@ tshirtColor.disabled = true;
 tshirtDesign.addEventListener('change', (e) => {
     const selectedDesign = e.target.value;
     tshirtColor.disabled = false;
-    
+
+    console.log(colorOptions);
+
+    colorOptions.forEach( (option) => {
+      option.style.display = "none";
+      });
+
+
+
+
     // Show color options specific to the selected design
-    const colorOptionsToShow = document.querySelectorAll(`#color option[data-theme="${selectedDesign}"]`);
+    // const colorOptionsToShow = document.querySelectorAll(`#color option[data-theme="${selectedDesign}"]`);
    
-    colorOptionsToShow.forEach( (option) => {
-      console.log(option)
-      option.style.display = "block";
+    colorOptions.forEach( (option) => {
+      // console.log(option);
+      // // console.log(option.getAttribute('data-theme'));
+      // console.log(`[data-theme="${selectedDesign}"]`);
+
+      let optionAttribute = option.getAttribute('data-theme');
+      console.log(optionAttribute);
+
+
+      if(selectedDesign === optionAttribute) {
+        console.log('attribute matches selection');
+        option.style.display = "block";
+      } else {
+        console.log('attribute doesn\'t selection');
+        option.style.display = "none";
+      }
+  
     });
 });
 
