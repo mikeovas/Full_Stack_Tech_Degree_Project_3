@@ -13,7 +13,7 @@ const emailInput = document.getElementById("email");
 const nameHint = document.getElementById("name-hint");
 const emailHint = document.getElementById("email-hint");
 
-const tshirtColor = document.getElementById("color");
+let tshirtColor = document.getElementById("color");
 const tshirtDesign = document.getElementById("design");
 const colorOptions = document.querySelectorAll('#color option');
 
@@ -67,16 +67,12 @@ tshirtDesign.addEventListener('change', (e) => {
     const selectedDesign = e.target.value;
     tshirtColor.disabled = false;
     
-    tshirtColor.firstElementChild.remove();   // remove the element so doesnt show
-
     // Show color options specific to the selected design
     const colorOptionsToShow = document.querySelectorAll(`#color option[data-theme="${selectedDesign}"]`);
-
-    console.log(colorOptionsToShow);
    
     colorOptionsToShow.forEach( (option) => {
       console.log(option)
-        option.style.display = 'block';
+      option.style.display = "block";
     });
 });
 
