@@ -17,6 +17,9 @@ let tshirtColor = document.getElementById("color");
 const tshirtDesign = document.getElementById("design");
 const colorOptions = document.querySelectorAll("#color option");
 
+let registerActivities = document.getElementById("activities");
+const activitiesCost = document.getElementById("activities-cost");
+const activitiesHint = document.getElementById("activities-hint");
 
 //Initially hides the text box for input of other job type
 otherJobRole.style.display = "none";
@@ -84,3 +87,40 @@ tshirtDesign.addEventListener('change', (e) => {
 
 
 
+//*** Total Cost of Activities Section ***/
+
+let totalActivityCost=0;
+
+registerActivities.addEventListener("change", (e) => {
+
+   // Retrieve the 'data-day-and-time' attribute value
+  let dateOfActivity = registerActivities.querySelectorAll('[data-day-and-time]');
+
+  dateOfActivity.forEach((element) => {
+    const dayAndTime = element.getAttribute('data-day-and-time');
+    
+    // Output the value to the console
+    console.log(dayAndTime); // Outputs: e.g., "Tuesday 9am-12pm"
+  });
+
+  let selectedActivity = e.target;
+  console.log(selectedActivity);
+
+  let sameDT = selectedActivity.getAttribute('data-day-and-time');
+  console.log(sameDT);
+
+  // const sameDateAndTime = registerActivities.querySelectorAll(`[data-day-and-time=${sameDT}]`);
+
+  // get total cost of selected workshops//
+  let activityCost = parseFloat(selectedActivity.getAttribute("data-cost")); 
+
+  if (selectedActivity.checked) {
+    totalActivityCost += activityCost;
+  } else {
+    totalActivityCost -= activityCost;
+  } 
+
+  activitiesCost.innerText =`Total: $${totalActivityCost}`;
+
+
+});
