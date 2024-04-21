@@ -17,7 +17,7 @@ let tshirtColor = document.getElementById("color");
 const tshirtDesign = document.getElementById("design");
 const colorOptions = document.querySelectorAll("#color option");
 
-let registerActivities = document.getElementById("activities");
+let workshopActivities = document.getElementById("activities");
 const activitiesCost = document.getElementById("activities-cost");
 const activitiesHint = document.getElementById("activities-hint");
 
@@ -91,36 +91,31 @@ tshirtDesign.addEventListener('change', (e) => {
 
 let totalActivityCost=0;
 
-registerActivities.addEventListener("change", (e) => {
+workshopActivities.addEventListener("change", (e) => {
+   
+  // Get the attribute for day and time of selected input
+  const selectedActivity = e.target;
+  const selectedDayAndTime = selectedActivity.getAttribute('data-day-and-time');
 
-   // Retrieve the 'data-day-and-time' attribute value
-  let dateOfActivity = registerActivities.querySelectorAll('[data-day-and-time]');
-
-  dateOfActivity.forEach((element) => {
-    const dayAndTime = element.getAttribute('data-day-and-time');
-    
-    // Output the value to the console
-    console.log(dayAndTime); // Outputs: e.g., "Tuesday 9am-12pm"
-  });
-
-  let selectedActivity = e.target;
-  console.log(selectedActivity);
-
-  let sameDT = selectedActivity.getAttribute('data-day-and-time');
-  console.log(sameDT);
-
-  // const sameDateAndTime = registerActivities.querySelectorAll(`[data-day-and-time=${sameDT}]`);
-
-  // get total cost of selected workshops//
+  // Get the total cost of all selected workshops//
   let activityCost = parseFloat(selectedActivity.getAttribute("data-cost")); 
-
-  if (selectedActivity.checked) {
-    totalActivityCost += activityCost;
-  } else {
-    totalActivityCost -= activityCost;
-  } 
-
+      if (selectedActivity.checked) {
+          totalActivityCost += activityCost;
+      } else {
+          totalActivityCost -= activityCost;
+      } 
   activitiesCost.innerText =`Total: $${totalActivityCost}`;
 
+  // Get the day and time of all activies
+  const dateOfActivity = workshopActivities.querySelectorAll('input[data-day-and-time]');
 
+  // Get the attribute for the date and time of each activity  
+  dateOfActivity.forEach((element) => {
+      const dayAndTime = element.getAttribute('data-day-and-time');
+
+  // Disable all activities at the same day and time as selected activity    
+      if(selectedDayAndTime === dayAndTime && element !== selectedActivity) {  
+        element.disabled = selectedActivity.checked;
+      } 
+  });
 });
