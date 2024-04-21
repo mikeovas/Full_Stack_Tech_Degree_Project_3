@@ -4,6 +4,7 @@
 
 // Variables for Name Field and Job Role
 const form = document.querySelector('form');
+const basicInfo = document.querySelector('.basic-info');
 const otherJobRole = document.querySelector('#other-job-role');
 const jobRole = document.querySelector('#title');
 
@@ -29,6 +30,13 @@ const creditCardInitial = paymentMethod.querySelector("option:nth-child(2)");
 const payPalPayment = document.getElementById("paypal");
 const bitcoinPayment  = document.getElementById("bitcoin");
 
+// Variable for all checkboxes //
+const checkBoxes = document.querySelectorAll("input[type='checkbox']");
+
+console.log(checkBoxes);
+
+
+
 
 // Selection the name input field and giving it initial focus//
 const nameField = document.querySelector("[type='text']").focus();
@@ -45,7 +53,7 @@ jobRole.addEventListener('change', (e) => {
     });
 
     
-//**Text Box Input Validation Functions**//
+//** Name and Email Input Validation Functions **//
 
 // Valid usernames can only contain letters a-z in lowercase
 const isValidUsername = () => /^[a-z]+$/.test(nameInput.value);
@@ -54,10 +62,11 @@ const isValidUsername = () => /^[a-z]+$/.test(nameInput.value);
 const isValidEmail = () => /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
 
 //Event Listener for name and email input for Validation
-form.addEventListener("submit", (e) => {
+basicInfo.addEventListener("keyup", (e) => {
   const validator = (validationFunction, inputHint) => {
     if(validationFunction()) {
       inputHint.style.display = 'none';
+      nameInput.classList.add('valid');
     } else {
       e.preventDefault();
       inputHint.classList.add('hint');
@@ -164,3 +173,8 @@ bitcoinPayment.style.display ="none";
         bitcoinPayment.style.display = "block";
     } 
 });
+
+
+//*** Form Validation ***//
+
+
