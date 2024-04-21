@@ -86,13 +86,13 @@ tshirtDesign.addEventListener('change', (e) => {
 
 
 
-
 //*** Total Cost of Activities Section ***/
 
-let totalActivityCost=0;
+let totalActivityCost=0;    // variable to keep track of total cost of activities
+let checkboxSelected = 0;   // counter to keep track of checkboxes selected
 
 workshopActivities.addEventListener("change", (e) => {
-   
+
   // Get the attribute for day and time of selected input
   const selectedActivity = e.target;
   const selectedDayAndTime = selectedActivity.getAttribute('data-day-and-time');
@@ -101,8 +101,10 @@ workshopActivities.addEventListener("change", (e) => {
   let activityCost = parseFloat(selectedActivity.getAttribute("data-cost")); 
       if (selectedActivity.checked) {
           totalActivityCost += activityCost;
+          checkboxSelected += 1;
       } else {
           totalActivityCost -= activityCost;
+          checkboxSelected -= 1;
       } 
   activitiesCost.innerText =`Total: $${totalActivityCost}`;
 
@@ -118,4 +120,11 @@ workshopActivities.addEventListener("change", (e) => {
         element.disabled = selectedActivity.checked;
       } 
   });
+  
+  // If no checkboxes selected will apply the hint
+      if(checkboxSelected >0) {
+        activitiesHint.style.display = "none";
+      } else {
+        activitiesHint.style.display = "block";
+  }
 });
