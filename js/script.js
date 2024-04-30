@@ -21,7 +21,6 @@
   const workshopActivities = document.getElementById("activities");
   const activitiesCost = document.getElementById("activities-cost");
   
-
 // Variables for Methods of Payment
   const paymentMethod = document.getElementById("payment");                        // selects for payment options div
   const creditCardPayment = document.getElementById("credit-card");               // selects cc div
@@ -30,9 +29,9 @@
   const creditCardInitial = paymentMethod.querySelector("option:nth-child(2)");   // selects the credit card option to display initially
 
   // Variables for Credit Card Input
-  const ccInput = document.getElementById("cc-num");                                // selects for cc input box
-  const zipInput = document.getElementById("zip");
-  const cvvInput = document.getElementById("cvv");
+    const ccInput = document.getElementById("cc-num");                                // selects for cc input box
+    const zipInput = document.getElementById("zip");
+    const cvvInput = document.getElementById("cvv");
 
   // Variables for Input Hints
     const nameHint = document.getElementById("name-hint");
@@ -43,8 +42,7 @@
     const cvvHint = document.getElementById("cvv-hint");
 
 
-// Variable for all checkboxes //
-  const checkBoxes = document.querySelectorAll("input[type='checkbox']");
+
 
 
 // Selection of the name input field and giving it initial focus//
@@ -57,7 +55,9 @@
   jobRole.addEventListener('change', (e) => {
       const jobChoice = e.target.value;
         if(jobChoice === "other") {
-          otherJobRole.style.display = "block";
+          otherJobRole.style.display = "block";}
+          else {
+            otherJobRole.style.display = "none";
           } 
       });
 
@@ -127,11 +127,12 @@
     let activityCost = parseFloat(selectedActivity.getAttribute("data-cost")); 
         if (selectedActivity.checked) {
             totalActivityCost += activityCost;
-            checkboxSelected += 1;
+            checkboxSelected += 1;     
         } else {
             totalActivityCost -= activityCost;
             checkboxSelected -= 1;
-        } 
+        }; 
+
     // Updates Total Cost    
     activitiesCost.innerText =`Total: $${totalActivityCost}`;
 
@@ -154,7 +155,33 @@
         } else {
           activitiesHint.style.display = "block";
         }
+
+
+// give checked checkboxes focus and removing focus from unchecked checkboxes
+
+// Variable for all workshop checkboxes //
+const workshopCheckBoxes = document.querySelectorAll("input[type='checkbox']:checked");
+workshopCheckBoxes.forEach( (box) => {
+  // box.style.display.border = "solid red"   // used this to try to do something with the checked checkboxes but doesnt do anything
+ console.log(box);   // matches the console.log in line 166  - I am selecting the checked checkboxes am I not?
+box.focus();  // why does this not add focus???
+})
+
+console.log(workshopCheckBoxes);  // will show all checkboxes that are checked
+
+
     });
+
+
+
+
+
+
+
+
+
+
+
 
 
 //*** Payment Section ***/
@@ -200,6 +227,11 @@ zipInput.addEventListener("blur", (e) => {
     zipHint.style.display = "none"; // Hide hint
   }
 });
+
+
+
+
+
 
 cvvInput.addEventListener("blur", (e) => {
   creditCardPayment.style.display = "block";
