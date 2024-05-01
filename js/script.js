@@ -141,12 +141,16 @@
       dateOfActivity.forEach((element) => {
         const dayAndTime = element.getAttribute('data-day-and-time');
 
-      // Disable all activities at the same day and time as selected activity    
-        if(selectedDayAndTime === dayAndTime && element !== selectedActivity) {  
-          element.disabled = selectedActivity.checked;
+    // Disable all activities at the same day and time as selected activity    
+      if(selectedDayAndTime === dayAndTime && element !== selectedActivity) {  
+        element.disabled = selectedActivity.checked;
+        }
+          
+      if(element.disabled) {
           element.parentElement.classList.add("disabled");
-          } 
-
+        } else {
+            element.parentElement.classList.remove("disabled");
+        }
       });
     
     // If no checkboxes selected will apply the hint
