@@ -11,7 +11,6 @@
   const nameInput = document.getElementById("name");
   const emailInput = document.getElementById("email");
   
-
 // Variables for Tshirt Design and Color
   const tshirtColor = document.getElementById("color");
   const tshirtDesign = document.getElementById("design");
@@ -21,6 +20,9 @@
   const workshopActivities = document.getElementById("activities");
   const activitiesCost = document.getElementById("activities-cost");
   
+// Variable for all Workshop Checkboxes 
+  const workshopCheckBoxes = document.querySelectorAll("input[type='checkbox']");
+
 // Variables for Methods of Payment
   const paymentMethod = document.getElementById("payment");                        // selects for payment options div
   const creditCardPayment = document.getElementById("credit-card");               // selects cc div
@@ -28,30 +30,27 @@
   const bitcoinPayment  = document.getElementById("bitcoin");                    // selects bitcoin div
   const creditCardInitial = paymentMethod.querySelector("option:nth-child(2)");   // selects the credit card option to display initially
 
-  // Variables for Credit Card Input
-    const ccInput = document.getElementById("cc-num");                                // selects for cc input box
-    const zipInput = document.getElementById("zip");
-    const cvvInput = document.getElementById("cvv");
+// Variables for Credit Card Input
+  const ccInput = document.getElementById("cc-num");                              
+  const zipInput = document.getElementById("zip");
+  const cvvInput = document.getElementById("cvv");
 
-  // Variables for Input Hints
-    const nameHint = document.getElementById("name-hint");
-    const emailHint = document.getElementById("email-hint");
-    const activitiesHint = document.getElementById("activities-hint");
-    const ccHint = document.getElementById("cc-hint");
-    const zipHint = document.getElementById("zip-hint");
-    const cvvHint = document.getElementById("cvv-hint");
-
-
-
+// Variables for Input Hints
+  const nameHint = document.getElementById("name-hint");
+  const emailHint = document.getElementById("email-hint");
+  const activitiesHint = document.getElementById("activities-hint");
+  const ccHint = document.getElementById("cc-hint");
+  const zipHint = document.getElementById("zip-hint");
+  const cvvHint = document.getElementById("cvv-hint");
 
 
 // Selection of the name input field and giving it initial focus//
   const nameField = document.querySelector("[type='text']").focus();
 
-//Initially hides the text box for input of other job type
+//Initially hides the text box for Input of Other Job Type
   otherJobRole.style.display = "none";
 
-//Event listener to  display input text box for other job type if other is selected as job role in the dropdown menu
+//Event listener to  display Input Text Box for Other Job Type if Other is selected as job role in the dropdown menu
   jobRole.addEventListener('change', (e) => {
       const jobChoice = e.target.value;
         if(jobChoice === "other") {
@@ -77,7 +76,6 @@
         inputHint.style.display = 'none';
         nameInput.classList.add('valid');
       } else {
-        e.preventDefault();
         inputHint.classList.add('hint');
         inputHint.style.display = 'block';
       }};
@@ -108,15 +106,15 @@
       } else {
           option.style.display = "none";
       }
-    colorOptions[0].selected = true;                              // put the Colors Available for Design Theme option back in as initial option
+    colorOptions[0].selected = true;             // put the Colors Available for Design Theme option back in as initial option
       });
   });
 
 
 //*** Total Cost of Activities Section ***/
 
-  let totalActivityCost=0;    // variable to keep track of total cost of activities
-  let checkboxSelected = 0;   // counter to keep track of checkboxes selected
+  let totalActivityCost=0;            // variable to keep track of total cost of activities
+  let checkboxSelected = 0;           // counter to keep track of checkboxes selected
 
   workshopActivities.addEventListener("change", (e) => {
     // Get the attribute for day and time of selected input
@@ -143,9 +141,9 @@
       dateOfActivity.forEach((element) => {
         const dayAndTime = element.getAttribute('data-day-and-time');
 
-    // Disable all activities at the same day and time as selected activity    
+      // Disable all activities at the same day and time as selected activity    
         if(selectedDayAndTime === dayAndTime && element !== selectedActivity) {  
-          element.disabled = selectedActivity.checked;
+          element.disabled.classList = selectedActivity.checked;
           } 
       });
     
@@ -155,33 +153,23 @@
         } else {
           activitiesHint.style.display = "block";
         }
+      });
+      
+    // Give checked checkboxes Focus and Remove focus from unchecked checkboxes      
+      workshopCheckBoxes.forEach( (box) => {
+        box.addEventListener("focus", (e) => {
+          box.parentElement.classList.add("focus");
+        });
+      });
+
+      workshopCheckBoxes.forEach( (box) => {
+        box.addEventListener("blur", (e) => {
+          box.parentElement.classList.remove("focus");
+        });
+      });
 
 
-// give checked checkboxes focus and removing focus from unchecked checkboxes
-
-// Variable for all workshop checkboxes //
-const workshopCheckBoxes = document.querySelectorAll("input[type='checkbox']:checked");
-workshopCheckBoxes.forEach( (box) => {
-  // box.style.display.border = "solid red"   // used this to try to do something with the checked checkboxes but doesnt do anything
- console.log(box);   // matches the console.log in line 166  - I am selecting the checked checkboxes am I not?
-box.focus();  // why does this not add focus???
-})
-
-console.log(workshopCheckBoxes);  // will show all checkboxes that are checked
-
-
-    });
-
-
-
-
-
-
-
-
-
-
-
+      
 
 
 //*** Payment Section ***/
@@ -227,10 +215,6 @@ zipInput.addEventListener("blur", (e) => {
     zipHint.style.display = "none"; // Hide hint
   }
 });
-
-
-
-
 
 
 cvvInput.addEventListener("blur", (e) => {
