@@ -143,7 +143,7 @@
 
       // Disable all activities at the same day and time as selected activity    
         if(selectedDayAndTime === dayAndTime && element !== selectedActivity) {  
-          element.disabled.classList = selectedActivity.checked;
+          element.disabled = selectedActivity.checked;
           } 
       });
     
@@ -215,6 +215,7 @@ zipInput.addEventListener("blur", (e) => {
     zipHint.style.display = "none"; // Hide hint
   }
 });
+
 
 
 cvvInput.addEventListener("blur", (e) => {
