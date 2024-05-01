@@ -144,7 +144,9 @@
       // Disable all activities at the same day and time as selected activity    
         if(selectedDayAndTime === dayAndTime && element !== selectedActivity) {  
           element.disabled = selectedActivity.checked;
+          element.parentElement.classList.add("disabled");
           } 
+
       });
     
     // If no checkboxes selected will apply the hint
