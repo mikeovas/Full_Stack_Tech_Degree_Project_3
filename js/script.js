@@ -1,6 +1,7 @@
 //*** I am aiming for exceeds expectations and only want to receive a mar k of exceeds expectations ***//
 
-//**  Declaration of variables to be used **//
+
+//**  Declaration of Variables to be used **//
 
 // Variables for Name Field and Job Role
   const form = document.querySelector('form');
@@ -24,10 +25,10 @@
   const workshopCheckBoxes = document.querySelectorAll("input[type='checkbox']");
 
 // Variables for Methods of Payment
-  const paymentMethod = document.getElementById("payment");                        // selects for payment options div
+  const paymentMethod = document.getElementById("payment");                       // selects for payment options div
   const creditCardPayment = document.getElementById("credit-card");               // selects cc div
-  const payPalPayment = document.getElementById("paypal");                       // selects paypal div
-  const bitcoinPayment  = document.getElementById("bitcoin");                    // selects bitcoin div
+  const payPalPayment = document.getElementById("paypal");                        // selects paypal div
+  const bitcoinPayment  = document.getElementById("bitcoin");                     // selects bitcoin div
   const creditCardInitial = paymentMethod.querySelector("option:nth-child(2)");   // selects the credit card option to display initially
 
 // Variables for Credit Card Input
@@ -51,132 +52,96 @@
   otherJobRole.style.display = "none";
 
 //Event listener to  display Input Text Box for Other Job Type if Other is selected as job role in the dropdown menu
-  jobRole.addEventListener('change', (e) => {
-      const jobChoice = e.target.value;
-        if(jobChoice === "other") {
-          otherJobRole.style.display = "block";}
-          else {
-            otherJobRole.style.display = "none";
-          } 
-      });
-
-    
-//** Name and Email Input Validation Functions **//
-
-// Valid usernames can only contain letters a-z in lowercase
-  const isValidUsername = () => /^[a-z]+$/.test(nameInput.value);
-
-// Valid email must contain a name, an @ symbol and a domain name
-  const isValidEmail = () => /^[^@]+@[^@.]+\.[a-z]+$/i.test(emailInput.value);
-
-//Event Listener for name and email input and then check for Validation
-  basicInfo.addEventListener("keyup", (e) => {
-    const validator = (validationFunction, inputHint) => {
-      if(validationFunction()) {
-        inputHint.style.display = 'none';
-        nameInput.classList.add('valid');
-      } else {
-        inputHint.classList.add('hint');
-        inputHint.style.display = 'block';
-      }};
-      validator(isValidUsername, nameHint);
-      validator(isValidEmail, emailHint);    
-  });
+jobRole.addEventListener('change', (e) => {
+  const jobChoice = e.target.value;
+  if(jobChoice === "other") {
+    otherJobRole.style.display = "block";
+  } else {
+    otherJobRole.style.display = "none";
+  } 
+});
 
 
 //*** Tshirt Design & Color Selection ***/
 
 // Initially diable the t-shirt color input //
-  tshirtColor.disabled = true;
+tshirtColor.disabled = true;
 
 // Selection of color of t-shirt based on design selection //
 
-  tshirtDesign.addEventListener('change', (e) => {
-    const selectedDesign = e.target.value;
-    tshirtColor.disabled = false;
+tshirtDesign.addEventListener('change', (e) => {
+  const selectedDesign = e.target.value;
+  tshirtColor.disabled = false;
 
-    colorOptions.forEach( (option) => {
-        option.style.display = "none";                                // remove all color options from the selection menu
-      });
+  colorOptions.forEach( (option) => {
+    option.style.display = "none";                                // remove all color options from the selection menu
+  });
     
-    colorOptions.forEach( (option) => {
-          let optionAttribute = option.getAttribute('data-theme');   //get data-theme attribute of all color options
-      if(selectedDesign === optionAttribute) {                      // conditional to compare attribute of selected design to the attribute of all color options and only choose the colors for that design //
-          option.style.display = "block";
-      } else {
-          option.style.display = "none";
-      }
-    colorOptions[0].selected = true;             // put the Colors Available for Design Theme option back in as initial option
-      });
+  colorOptions.forEach( (option) => {
+    let optionAttribute = option.getAttribute('data-theme');      //get data-theme attribute of all color options
+    if(selectedDesign === optionAttribute) {                      // conditional to compare attribute of selected design to the attribute of all color options and only choose the colors for that design //
+      option.style.display = "block";
+    } else {
+      option.style.display = "none";
+    }
+    colorOptions[0].selected = true;                            // put the Colors Available for Design Theme option back in as initial option
+    });
   });
 
 
-//*** Total Cost of Activities Section ***/
+//*** Selection of Activities Section ***/
 
-  let totalActivityCost=0;            // variable to keep track of total cost of activities
-  let checkboxSelected = 0;           // counter to keep track of checkboxes selected
+let totalActivityCost=0;                                    // variable to keep track of total cost of activities
+let checkboxSelected = 0;                                   // counter to keep track of checkboxes selected
 
-  workshopActivities.addEventListener("change", (e) => {
-    // Get the attribute for day and time of selected input
-    const selectedActivity = e.target;
-    const selectedDayAndTime = selectedActivity.getAttribute('data-day-and-time');
+workshopActivities.addEventListener("change", (e) => {
 
-    // Get the total cost of all selected workshops//
-    let activityCost = parseFloat(selectedActivity.getAttribute("data-cost")); 
-        if (selectedActivity.checked) {
-            totalActivityCost += activityCost;
-            checkboxSelected += 1;     
-        } else {
-            totalActivityCost -= activityCost;
-            checkboxSelected -= 1;
-        }; 
+// Get the attribute for day and time of selected input
+  const selectedActivity = e.target;
+  const selectedDayAndTime = selectedActivity.getAttribute('data-day-and-time');
 
-    // Updates Total Cost    
-    activitiesCost.innerText =`Total: $${totalActivityCost}`;
+// Get the total cost of all selected workshops//
+  let activityCost = parseFloat(selectedActivity.getAttribute("data-cost")); 
+  if (selectedActivity.checked) {
+    totalActivityCost += activityCost;
+    checkboxSelected += 1;     
+  } else {
+    totalActivityCost -= activityCost;
+    checkboxSelected -= 1;
+  }; 
 
-    // Get the day and time of all activies
-      const dateOfActivity = workshopActivities.querySelectorAll('input[data-day-and-time]');
+  activitiesCost.innerText =`Total: $${totalActivityCost}`;                                 // Updates Total Cost to be displayed   
 
-    // Get the attribute for the date and time of each activity  
-      dateOfActivity.forEach((element) => {
-        const dayAndTime = element.getAttribute('data-day-and-time');
-
-    // Disable all activities at the same day and time as selected activity    
-      if(selectedDayAndTime === dayAndTime && element !== selectedActivity) {  
-        element.disabled = selectedActivity.checked;
-        }
+  const dateOfActivity = workshopActivities.querySelectorAll('input[data-day-and-time]');   // Get the Day and Time of all activities
+ 
+  dateOfActivity.forEach((element) => {                                                     // Get the Attribute for the Day and Time of each activity 
+  const dayAndTime = element.getAttribute('data-day-and-time');       
+  
+  if(selectedDayAndTime === dayAndTime && element !== selectedActivity) {                   // Disable all activities at the same day and time as selected activity  
+    element.disabled = selectedActivity.checked;
+  }
           
-      if(element.disabled) {
-          element.parentElement.classList.add("disabled");
-        } else {
-            element.parentElement.classList.remove("disabled");
-        }
-      });
-    
-    // If no checkboxes selected will apply the hint
-        if(checkboxSelected >0) {
-          activitiesHint.style.display = "none";
-        } else {
-          activitiesHint.style.display = "block";
-        }
-      });
+  if(element.disabled) {
+    element.parentElement.classList.add("disabled");                                        // Adds the disabled class to all activities that have same day and time attributes
+  } else {
+    element.parentElement.classList.remove("disabled");                                    // Adds the disabled class to all activities that have same day and time attributes
+  }
+  });
       
-    // Give checked checkboxes Focus and Remove focus from unchecked checkboxes      
-      workshopCheckBoxes.forEach( (box) => {
-        box.addEventListener("focus", (e) => {
-          box.parentElement.classList.add("focus");
-        });
-      });
+// Give checked checkboxes Focus and Remove focus from unchecked checkboxes      
+  workshopCheckBoxes.forEach( (box) => {
+    box.addEventListener("focus", (e) => {
+    box.parentElement.classList.add("focus");
+    });
+  });
 
-      workshopCheckBoxes.forEach( (box) => {
-        box.addEventListener("blur", (e) => {
-          box.parentElement.classList.remove("focus");
-        });
-      });
-
-
+  workshopCheckBoxes.forEach( (box) => {
+    box.addEventListener("blur", (e) => {
+    box.parentElement.classList.remove("focus");
+    });
+  });
+});
       
-
 
 //*** Payment Section ***/
 
@@ -185,57 +150,94 @@
   payPalPayment.style.display ="none";
   bitcoinPayment.style.display ="none";
 
-
 // Event Listener to Select for Other Payment Options
   paymentMethod.addEventListener("change", (e) => {
-    const selectedPayment = e.target.value;
+  const selectedPayment = e.target.value;
 
-    // Show/Hide sections based on the selected payment method
-    creditCardPayment.style.display = selectedPayment === "credit-card" ? "block" : "none";
-    payPalPayment.style.display = selectedPayment === "paypal" ? "block" : "none";
-    bitcoinPayment.style.display = selectedPayment === "bitcoin" ? "block" : "none";
-    });
+// Show/Hide sections based on the selected payment method
+  creditCardPayment.style.display = selectedPayment === "credit-card" ? "block" : "none";
+  payPalPayment.style.display = selectedPayment === "paypal" ? "block" : "none";
+  bitcoinPayment.style.display = selectedPayment === "bitcoin" ? "block" : "none";
+  });
 
 
-// Credit Card Validation of Credit Card Number, Zip Code and CVV
-ccInput.addEventListener("blur", (e) => {
-  creditCardPayment.style.display = "block";
-  const ccValue = e.target.value;
-  const isValid = /^\d{13,16}$/.test(ccValue);
+//** Form Validation Section **//
 
-  if (!isValid) {
-    ccHint.style.display = "block"; // Show hint
-  } else {
-    ccHint.style.display = "none"; // Hide hint
+// Function Used to Validate the Form Inputs
+  function validateForm() {
+    let isValid = true;                                 //Variable to Store whether Validation is Correct(True) or Not(False)
+
+    // Name Validation //
+    const nameRegex = /^[a-z]+$/;                        // Valid usernames can only contain letters a-z in lowercase     
+    if (!nameRegex.test(nameInput.value.trim())) {      // Checks Input valid against regex expression
+    isValid = false;
+    nameHint.style.display = 'block';                   // Makes Name Hint Visible      
+    nameInput.classList.add('error');                   // Applies error styles
+    } else {
+    nameHint.style.display = 'none';                    // Hides Name Hint
+    nameInput.classList.remove('error');                // Remove error styles
+    }
+
+    // Validate Email
+    const emailRegex = /^[^@]+@[^@.]+\.[a-z]+$/i;       // Valid Email Addresses are in the correct form. ex. abc@somewhere.com
+    if (!emailRegex.test(emailInput.value.trim())) {    // Checks Input valid against regex expression
+    isValid = false;
+    emailHint.style.display = 'block';                  // Make Email Hint Visible
+    emailInput.classList.add('error');                  // Applies error styles
+    } else {
+    emailHint.style.display = 'none';                   // Hides Email Hint
+    emailInput.classList.remove('error');               // Removes error styles
+    }
+
+    // Validate Activities (at least one checkbox checked)
+    const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);        // Creates an array from the workshopCheckBoxes variable and uses .some() to check that at least one box is checked
+    if (!hasSelectedActivity) {
+    isValid = false;
+    activitiesHint.style.display = 'block';           // Make Activities Hint Visible
+    } else {
+    activitiesHint.style.display = 'none';            // Removes Activities Hint Visible
+    }
+
+    // Validate Credit Card
+    const ccRegex = /^\d{13,16}$/;                    // Credit Card must have 13 - 16 digits
+    if (!ccRegex.test(ccInput.value.trim())) {        // Checks Input valid against regex expression
+    isValid = false;
+    ccHint.style.display = 'block';                   // Make Credit Card Hint Visible
+    ccInput.classList.add('error');                  // Applies error styles
+    } else {
+    ccHint.style.display = 'none';                    // Removes Credit Card Hint Visible
+    ccInput.classList.remove('error');               // Removes error styles
+    }
+
+    // Validate Zip Code
+    const zipRegex = /^\d{5}$/;                        // Valid Zip Code can only have five digits 
+    if (!zipRegex.test(zipInput.value.trim())) {      // Checks Input valid against regex expression
+    isValid = false;
+    zipHint.style.display = 'block';                  // Makes Zip Code Hint visible
+    zipInput.classList.add('error');                  // Applies error styles
+    } else {
+    zipHint.style.display = 'none';                   // Removes Zip Code Hint
+    zipInput.classList.remove('error');               // Removes error styles
+    }
+
+    // Validate CVV
+    const cvvRegex = /^\d{3}$/;                       // Valid CVV can only have three digits
+    if (!cvvRegex.test(cvvInput.value.trim())) {      // Checks Input valid against regex expression
+    isValid = false;
+    cvvHint.style.display = 'block';                  // Makes CVV Hint visible
+    cvvInput.classList.add('error');                  // Applies error styles
+    } else {
+    cvvHint.style.display = 'none';                   // Removes CVV Hint
+    cvvInput.classList.remove('error');               // Removes error styles
+    }
+
+    return isValid;                                   // Returns Validation check 
   }
-});
 
-zipInput.addEventListener("blur", (e) => {
-  creditCardPayment.style.display = "block";
-  const zipValue = e.target.value;
-  const isValid = /^\d{5}$/.test(zipValue);
-
-  if (!isValid) {
-    zipHint.style.display = "block"; // Show hint
-  } else {
-    zipHint.style.display = "none"; // Hide hint
-  }
-});
-
-
-
-cvvInput.addEventListener("blur", (e) => {
-  creditCardPayment.style.display = "block";
-  const cvvValue = e.target.value;
-  const isValid = /^\d{3}$/.test(cvvValue);
-
-  if (!isValid) {
-    cvvHint.style.display = "block"; // Show hint
-  } else {
-    cvvHint.style.display = "none"; // Hide hint
-  }
-});
-
-
-
+  // Add the event listener to the form's submit event
+  form.addEventListener('submit', (e) => {
+  if (!validateForm()) {
+    e.preventDefault();                             // Prevent form submission if validation fails
+    }
+  });
 
