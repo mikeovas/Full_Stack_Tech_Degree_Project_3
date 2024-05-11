@@ -1,7 +1,8 @@
 //*** I am aiming for exceeds expectations and only want to receive a mar k of exceeds expectations ***//
 
-
+//*******************************************//
 //**  Declaration of Variables to be used **//
+//******************************************//
 
 // Variables for Name Field and Job Role
   const form = document.querySelector('form');
@@ -25,11 +26,11 @@
   const workshopCheckBoxes = document.querySelectorAll("input[type='checkbox']");
 
 // Variables for Methods of Payment
-  const paymentMethod = document.getElementById("payment");                       // selects for payment options div
-  const creditCardPayment = document.getElementById("credit-card");               // selects cc div
-  const payPalPayment = document.getElementById("paypal");                        // selects paypal div
-  const bitcoinPayment  = document.getElementById("bitcoin");                     // selects bitcoin div
-  const creditCardInitial = paymentMethod.querySelector("option:nth-child(2)");   // selects the credit card option to display initially
+  const paymentMethod = document.getElementById("payment");                                 // selects for payment options div
+  const creditCardPayment = document.getElementById("credit-card");                         // selects cc div
+  const payPalPayment = document.getElementById("paypal");                                  // selects paypal div
+  const bitcoinPayment  = document.getElementById("bitcoin");                              // selects bitcoin div
+  const creditCardInitial = paymentMethod.querySelector("option:nth-child(2)");            // selects the credit card option to display initially
 
 // Variables for Credit Card Input
   const ccInput = document.getElementById("cc-num");                              
@@ -44,13 +45,19 @@
   const zipHint = document.getElementById("zip-hint");
   const cvvHint = document.getElementById("cvv-hint");
 
-// Selection of the name input field and giving it initial focus//
+
+
+//*******************************//
+//**  Basic Information Section *//
+//*******************************//
+
+//** Selection of the name input field and giving it initial focus **//
   const nameField = document.querySelector("[type='text']").focus();
 
-//Initially hides the text box for Input of Other Job Type
+//** Initially hides the text box for Input of Other Job Type **//
   otherJobRole.style.display = "none";
 
-//Event listener to  display Input Text Box for Other Job Type if Other is selected as job role in the dropdown menu
+//** Event listener to display Input Text Box for Other Job Type if Other is selected as job role in the dropdown menu **//
 jobRole.addEventListener('change', (e) => {
   const jobChoice = e.target.value;
   if(jobChoice === "other") {
@@ -61,37 +68,40 @@ jobRole.addEventListener('change', (e) => {
 });
 
 
-//*** Tshirt Design & Color Selection ***/
+//***************************************//
+//**  Tshirt Design & Color Selection **//
+//**************************************//
 
 // Initially diable the t-shirt color input //
 tshirtColor.disabled = true;
 
 // Selection of color of t-shirt based on design selection //
-
 tshirtDesign.addEventListener('change', (e) => {
   const selectedDesign = e.target.value;
   tshirtColor.disabled = false;
 
   colorOptions.forEach( (option) => {
-    option.style.display = "none";                                // remove all color options from the selection menu
+    option.style.display = "none";                                                        // remove all color options from the selection menu
   });
     
   colorOptions.forEach( (option) => {
-    let optionAttribute = option.getAttribute('data-theme');      //get data-theme attribute of all color options
-    if(selectedDesign === optionAttribute) {                      // conditional to compare attribute of selected design to the attribute of all color options and only choose the colors for that design //
+    let optionAttribute = option.getAttribute('data-theme');                              // get data-theme attribute of all color options
+    if(selectedDesign === optionAttribute) {                                              // conditional to compare attribute of selected design to the attribute of all color options and only choose the colors for that design //
       option.style.display = "block";
     } else {
       option.style.display = "none";
     }
-    colorOptions[0].selected = true;                            // put the Colors Available for Design Theme option back in as initial option
+    colorOptions[0].selected = true;                                                      // put the Colors Available for Design Theme option back in as initial option
     });
   });
 
 
-//*** Selection of Activities Section ***/
+//***********************************************//
+//**  Selection and Cost of Activities Section **//
+//***********************************************//
 
-let totalActivityCost=0;                                    // variable to keep track of total cost of activities
-let checkboxSelected = 0;                                   // counter to keep track of checkboxes selected
+let totalActivityCost=0;                                                                  // variable to keep track of total cost of activities
+let checkboxSelected = 0;                                                                 // counter to keep track of checkboxes selected
 
 workshopActivities.addEventListener("change", (e) => {
 
@@ -99,7 +109,7 @@ workshopActivities.addEventListener("change", (e) => {
   const selectedActivity = e.target;
   const selectedDayAndTime = selectedActivity.getAttribute('data-day-and-time');
 
-// Get the total cost of all selected workshops//
+// Get the total cost of all selected workshops
   let activityCost = parseFloat(selectedActivity.getAttribute("data-cost")); 
   if (selectedActivity.checked) {
     totalActivityCost += activityCost;
@@ -142,7 +152,9 @@ workshopActivities.addEventListener("change", (e) => {
 });
       
 
-//*** Payment Section ***/
+//***********************//
+//**  Payment Section **//
+//**********************//
 
 //initially hide Paypal and Bitcoin sections
   creditCardInitial.selected = true;
@@ -157,39 +169,46 @@ workshopActivities.addEventListener("change", (e) => {
   creditCardPayment.style.display = selectedPayment === "credit-card" ? "block" : "none";
   payPalPayment.style.display = selectedPayment === "paypal" ? "block" : "none";
   bitcoinPayment.style.display = selectedPayment === "bitcoin" ? "block" : "none";
-  });
+});
 
 
-//** Form Validation Section **//
+//********************************//
+//**  Form Validation Section  **//
+//*******************************//
+
+//Functions used to add valid styles to inputs if valid or error styles to the inputs if invalid
+
+function validInput(hint, input) {
+  hint.style.display = 'none';                        // Removes input hint
+  input.classList.remove('error');                    // Removes error styles from input box
+  input.parentElement.classList.add('valid');         // Add Valid styles (checkmark) to parent element of input box
+};
+
+function invalidInput(hint, input) {
+  isValid = false;
+  hint.style.display = 'block';                       // Makes Input Hint visible
+  input.parentElement.classList.remove('valid');      // Removes Valid styles (checkmark) from input's parent element    
+  input.classList.add('error');                       // Applies error styles to the input box
+};
 
 // Function Used to Validate the Form Inputs
   function validateForm() {
     let isValid = true;                                 //Variable to Store whether Validation is Correct(True) or Not(False)
 
     // Name Validation //
-    const nameRegex = /^[a-z]+$/;                        // Valid usernames can only contain letters a-z in lowercase     
+    const nameRegex = /^[a-z]+$/;                       // Valid usernames can only contain letters a-z in lowercase     
     if (!nameRegex.test(nameInput.value.trim())) {      // Checks Input valid against regex expression
-    isValid = false;
-    nameHint.style.display = 'block';                   // Makes Name Hint Visible
-    nameInput.parentElement.classList.remove('valid');  // Removes Valid styles (checkmark) to parent element      
-    nameInput.classList.add('error');                   // Applies error styles
+    invalidInput(nameHint, nameInput);  
     } else {
-    nameHint.style.display = 'none';                    // Hides Name Hint
-    nameInput.classList.remove('error');                // Remove error styles
-    nameInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
+    validInput(nameHint, nameInput);  
     }
 
     // Validate Email
     const emailRegex = /^[^@]+@[^@.]+\.[a-z]+$/i;       // Valid Email Addresses are in the correct form. ex. abc@somewhere.com
     if (!emailRegex.test(emailInput.value.trim())) {    // Checks Input valid against regex expression
-    isValid = false;
-    emailHint.style.display = 'block';                  // Make Email Hint Visible
-    emailInput.parentElement.classList.remove('valid'); // Removes Valid styles (checkmark) to parent element    
-    emailInput.classList.add('error');                  // Applies error styles
+    invalidInput(emailHint, emailInput);
     } else {
-    emailHint.style.display = 'none';                   // Hides Email Hint
-    emailInput.classList.remove('error');               // Removes error styles
-    emailInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
+    validInput(emailHint, emailInput);  
     }
 
     // Validate Activities (at least one checkbox checked)
@@ -204,58 +223,49 @@ workshopActivities.addEventListener("change", (e) => {
     }
 
     // Validate Credit Card
-    const ccRegex = /^\d{13,16}$/;                    // Credit Card must have 13 - 16 digits
-    if (!ccRegex.test(ccInput.value.trim())) {        // Checks Input valid against regex expression
-    isValid = false;
-    ccHint.style.display = 'block';                   // Make Credit Card Hint Visible
-    ccInput.parentElement.classList.remove('valid');  // Removes Valid styles (checkmark) to parent element    
-    ccInput.classList.add('error');                  // Applies error styles
+    const ccRegex = /^\d{13,16}$/;                            // Credit Card must have 13 - 16 digits
+    if (!ccRegex.test(ccInput.value.trim())) {                // Checks Input valid against regex expression
+    invalidInput(ccHint, ccInput);
     } else {
-    ccHint.style.display = 'none';                    // Removes Credit Card Hint Visible
-    ccInput.classList.remove('error');               // Removes error styles
-    ccInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
+    validInput(ccHint, ccInput);  
     }
 
     // Validate Zip Code
-    const zipRegex = /^\d{5}$/;                        // Valid Zip Code can only have five digits 
-    if (!zipRegex.test(zipInput.value.trim())) {      // Checks Input valid against regex expression
-    isValid = false;
-    zipHint.style.display = 'block';                  // Makes Zip Code Hint visible
-    zipInput.parentElement.classList.remove('valid');  // Removes Valid styles (checkmark) to parent element    
-    zipInput.classList.add('error');                  // Applies error styles
+    const zipRegex = /^\d{5}$/;                               // Valid Zip Code can only have five digits 
+    if (!zipRegex.test(zipInput.value.trim())) {              // Checks Input valid against regex expression
+    invalidInput(zipHint, zipInput);
     } else {
-    zipHint.style.display = 'none';                   // Removes Zip Code Hint
-    zipInput.classList.remove('error');               // Removes error styles
-    zipInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
+    validInput(zipHint, zipInput);  
     }
 
     // Validate CVV
-    const cvvRegex = /^\d{3}$/;                       // Valid CVV can only have three digits
-    if (!cvvRegex.test(cvvInput.value.trim())) {      // Checks Input valid against regex expression
-    isValid = false;
-    cvvHint.style.display = 'block';                  // Makes CVV Hint visible
-    cvvInput.parentElement.classList.remove('valid');  // Removes Valid styles (checkmark) to parent element    
-    cvvInput.classList.add('error');                  // Applies error styles
+    const cvvRegex = /^\d{3}$/;                               // Valid CVV can only have three digits
+    if (!cvvRegex.test(cvvInput.value.trim())) {              // Checks Input valid against regex expression
+    invalidInput(cvvHint, cvvInput);
     } else {
-    cvvHint.style.display = 'none';                   // Removes CVV Hint
-    cvvInput.classList.remove('error');               // Removes error styles
-    cvvInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
+    validInput(cvvHint, cvvInput);  
     }
 
-    return isValid;                                   // Returns Validation check 
+    return isValid;                                           // Returns Validation check 
   }
 
   // An Even Listener to Give Real Time Validation as Form Input Occurs
   form.addEventListener('change', (e) => {
-    if (!validateForm()) {
-      e.preventDefault();                             // Prevent form submission if validation fails
-      }
+    validateForm()
     });
   
   // An Event Listerner to check for final Validation beofre Submission of Form Data
   form.addEventListener('submit', (e) => {
   if (!validateForm()) {
-    e.preventDefault();                             // Prevent form submission if validation fails
-    }
+  e.preventDefault();                                     // Prevent form submission if validation fails
+  }
   });
+
+
+
+
+
+
+ 
+
 
