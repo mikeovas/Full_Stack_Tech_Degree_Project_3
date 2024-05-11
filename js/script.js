@@ -170,12 +170,13 @@ workshopActivities.addEventListener("change", (e) => {
     const nameRegex = /^[a-z]+$/;                        // Valid usernames can only contain letters a-z in lowercase     
     if (!nameRegex.test(nameInput.value.trim())) {      // Checks Input valid against regex expression
     isValid = false;
-    nameHint.style.display = 'block';                   // Makes Name Hint Visible      
+    nameHint.style.display = 'block';                   // Makes Name Hint Visible
+    nameInput.parentElement.classList.remove('valid');  // Removes Valid styles (checkmark) to parent element      
     nameInput.classList.add('error');                   // Applies error styles
     } else {
     nameHint.style.display = 'none';                    // Hides Name Hint
     nameInput.classList.remove('error');                // Remove error styles
-    nameInput.classList.add('valid');
+    nameInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
     }
 
     // Validate Email
@@ -183,19 +184,23 @@ workshopActivities.addEventListener("change", (e) => {
     if (!emailRegex.test(emailInput.value.trim())) {    // Checks Input valid against regex expression
     isValid = false;
     emailHint.style.display = 'block';                  // Make Email Hint Visible
+    emailInput.parentElement.classList.remove('valid'); // Removes Valid styles (checkmark) to parent element    
     emailInput.classList.add('error');                  // Applies error styles
     } else {
     emailHint.style.display = 'none';                   // Hides Email Hint
     emailInput.classList.remove('error');               // Removes error styles
+    emailInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
     }
 
     // Validate Activities (at least one checkbox checked)
     const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);        // Creates an array from the workshopCheckBoxes variable and uses .some() to check that at least one box is checked
     if (!hasSelectedActivity) {
     isValid = false;
-    activitiesHint.style.display = 'block';           // Make Activities Hint Visible
+    activitiesHint.style.display = 'block';                   // Make Activities Hint Visible
+    activitiesHint.parentElement.classList.remove('valid');   // Removes Valid styles (checkmark) to parent element    
     } else {
-    activitiesHint.style.display = 'none';            // Removes Activities Hint Visible
+    activitiesHint.style.display = 'none';                    // Removes Activities Hint Visible
+    activitiesHint.parentElement.classList.add('valid');      // Add Valid styles (checkmark) to parent element
     }
 
     // Validate Credit Card
@@ -203,10 +208,12 @@ workshopActivities.addEventListener("change", (e) => {
     if (!ccRegex.test(ccInput.value.trim())) {        // Checks Input valid against regex expression
     isValid = false;
     ccHint.style.display = 'block';                   // Make Credit Card Hint Visible
+    ccInput.parentElement.classList.remove('valid');  // Removes Valid styles (checkmark) to parent element    
     ccInput.classList.add('error');                  // Applies error styles
     } else {
     ccHint.style.display = 'none';                    // Removes Credit Card Hint Visible
     ccInput.classList.remove('error');               // Removes error styles
+    ccInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
     }
 
     // Validate Zip Code
@@ -214,10 +221,12 @@ workshopActivities.addEventListener("change", (e) => {
     if (!zipRegex.test(zipInput.value.trim())) {      // Checks Input valid against regex expression
     isValid = false;
     zipHint.style.display = 'block';                  // Makes Zip Code Hint visible
+    zipInput.parentElement.classList.remove('valid');  // Removes Valid styles (checkmark) to parent element    
     zipInput.classList.add('error');                  // Applies error styles
     } else {
     zipHint.style.display = 'none';                   // Removes Zip Code Hint
     zipInput.classList.remove('error');               // Removes error styles
+    zipInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
     }
 
     // Validate CVV
@@ -225,10 +234,12 @@ workshopActivities.addEventListener("change", (e) => {
     if (!cvvRegex.test(cvvInput.value.trim())) {      // Checks Input valid against regex expression
     isValid = false;
     cvvHint.style.display = 'block';                  // Makes CVV Hint visible
+    cvvInput.parentElement.classList.remove('valid');  // Removes Valid styles (checkmark) to parent element    
     cvvInput.classList.add('error');                  // Applies error styles
     } else {
     cvvHint.style.display = 'none';                   // Removes CVV Hint
     cvvInput.classList.remove('error');               // Removes error styles
+    cvvInput.parentElement.classList.add('valid');     // Add Valid styles (checkmark) to parent element
     }
 
     return isValid;                                   // Returns Validation check 
