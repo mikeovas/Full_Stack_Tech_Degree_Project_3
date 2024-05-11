@@ -44,7 +44,6 @@
   const zipHint = document.getElementById("zip-hint");
   const cvvHint = document.getElementById("cvv-hint");
 
-
 // Selection of the name input field and giving it initial focus//
   const nameField = document.querySelector("[type='text']").focus();
 
@@ -176,6 +175,7 @@ workshopActivities.addEventListener("change", (e) => {
     } else {
     nameHint.style.display = 'none';                    // Hides Name Hint
     nameInput.classList.remove('error');                // Remove error styles
+    nameInput.classList.add('valid');
     }
 
     // Validate Email
@@ -234,7 +234,14 @@ workshopActivities.addEventListener("change", (e) => {
     return isValid;                                   // Returns Validation check 
   }
 
-  // Add the event listener to the form's submit event
+  // An Even Listener to Give Real Time Validation as Form Input Occurs
+  form.addEventListener('change', (e) => {
+    if (!validateForm()) {
+      e.preventDefault();                             // Prevent form submission if validation fails
+      }
+    });
+  
+  // An Event Listerner to check for final Validation beofre Submission of Form Data
   form.addEventListener('submit', (e) => {
   if (!validateForm()) {
     e.preventDefault();                             // Prevent form submission if validation fails
