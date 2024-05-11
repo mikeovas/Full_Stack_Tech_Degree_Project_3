@@ -179,33 +179,33 @@ workshopActivities.addEventListener("change", (e) => {
 //Functions used to add valid styles to inputs if valid or error styles to the inputs if invalid
 
 function validInput(hint, input) {
-  hint.style.display = 'none';                        // Removes input hint
-  input.classList.remove('error');                    // Removes error styles from input box
-  input.parentElement.classList.add('valid');         // Add Valid styles (checkmark) to parent element of input box
+  hint.style.display = 'none';                              // Removes input hint
+  input.classList.remove('error');                          // Removes error styles from input box
+  input.parentElement.classList.add('valid');               // Add Valid styles (checkmark) to parent element of input box
 };
 
 function invalidInput(hint, input) {
   isValid = false;
-  hint.style.display = 'block';                       // Makes Input Hint visible
-  input.parentElement.classList.remove('valid');      // Removes Valid styles (checkmark) from input's parent element    
-  input.classList.add('error');                       // Applies error styles to the input box
+  hint.style.display = 'block';                             // Makes Input Hint visible
+  input.parentElement.classList.remove('valid');            // Removes Valid styles (checkmark) from input's parent element    
+  input.classList.add('error');                             // Applies error styles to the input box
 };
 
 // Function Used to Validate the Form Inputs
   function validateForm() {
-    let isValid = true;                                 //Variable to Store whether Validation is Correct(True) or Not(False)
+    let isValid = true;                                       //Variable to Store whether Validation is Correct(True) or Not(False)
 
     // Name Validation //
-    const nameRegex = /^[a-z]+$/;                       // Valid usernames can only contain letters a-z in lowercase     
-    if (!nameRegex.test(nameInput.value.trim())) {      // Checks Input valid against regex expression
+    const nameRegex = /^[a-z]+$/;                             // Valid usernames can only contain letters a-z in lowercase     
+    if (!nameRegex.test(nameInput.value.trim())) {            // Checks Input valid against regex expression
     invalidInput(nameHint, nameInput);  
     } else {
     validInput(nameHint, nameInput);  
     }
 
     // Validate Email
-    const emailRegex = /^[^@]+@[^@.]+\.[a-z]+$/i;       // Valid Email Addresses are in the correct form. ex. abc@somewhere.com
-    if (!emailRegex.test(emailInput.value.trim())) {    // Checks Input valid against regex expression
+    const emailRegex = /^[^@]+@[^@.]+\.[a-z]+$/i;              // Valid Email Addresses are in the correct form. ex. abc@somewhere.com
+    if (!emailRegex.test(emailInput.value.trim())) {          // Checks Input valid against regex expression
     invalidInput(emailHint, emailInput);
     } else {
     validInput(emailHint, emailInput);  
@@ -257,7 +257,7 @@ function invalidInput(hint, input) {
   // An Event Listerner to check for final Validation beofre Submission of Form Data
   form.addEventListener('submit', (e) => {
   if (!validateForm()) {
-  e.preventDefault();                                     // Prevent form submission if validation fails
+  e.preventDefault();                                       // Prevent form submission if validation fails
   }
   });
 
