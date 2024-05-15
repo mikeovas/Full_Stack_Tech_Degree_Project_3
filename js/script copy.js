@@ -177,115 +177,92 @@ bitcoinPayment.style.display = selectedPayment === "bitcoin" ? "block" : "none";
 //**  Form Validation Section  **//
 //*******************************//
 
-let isValid = "";                                            //Variable to Store whether Validation is Correct(True) or Not(False)
+//Functions used to add valid styles to inputs if valid or error styles to the inputs if invalid
 
-//Functions Used to Add Valid Styles to Inputs if Valid or Error Styles to the Inputs if Invalid //
-
-// Adds styles for Valid Inputs and Removes styles for Invalid Inputs //
 function validInput(hint, input) {
-    isValid = true;
-    hint.style.display = 'none';                              // Removes input hint
-    input.classList.remove('error');                          // Removes error styles from input box
-    input.parentElement.classList.remove('not-valid');        // Remove warning icon from the parent Label            
-    input.parentElement.classList.add('valid');               // Add Valid styles (checkmark) to parent element of input box
+hint.style.display = 'none';                              // Removes input hint
+input.classList.remove('error');                          // Removes error styles from input box
+input.parentElement.classList.remove('not-valid');        // Remove warning icon from the parent Label            
+input.parentElement.classList.add('valid');               // Add Valid styles (checkmark) to parent element of input box
 };
 
-// Adds styles for Invalid Inputs and Removes styles for Valid Inputs //
 function invalidInput(hint, input) {
-    isValid = false;
-    hint.style.display = 'block';                             // Makes Input Hint visible
-    input.classList.add('error');                             // Applies error styles to the input box
-    input.parentElement.classList.remove('valid');            // Removes Valid styles (checkmark) from input's parent Label   
-    input.parentElement.classList.add('not-valid');           // Add the warning icon to the parent Label              
+isValid = false;
+hint.style.display = 'block';                             // Makes Input Hint visible
+input.classList.add('error');                             // Applies error styles to the input box
+input.parentElement.classList.remove('valid');            // Removes Valid styles (checkmark) from input's parent Label   
+input.parentElement.classList.add('not-valid');           // Add the warning icon to the parent Label              
 };
 
-// Function used to Validate Name Input //
-function validateName() {
-    const nameRegex = /^[a-z]+$/;                             // Valid usernames can only contain letters a-z in lowercase     
-    if (!nameRegex.test(nameInput.value.trim())) {            // Checks Input valid against regex expression
-    invalidInput(nameHint, nameInput);  
-    } else {
-    validInput(nameHint, nameInput);  
-    }
-  };
-
- // Function used to Validate Email Input //
-  function validateEmail() {
-    const emailRegex = /^[^@]+@[^@.]+\.[a-z]+$/i;              // Valid Email Addresses are in the correct form. ex. abc@somewhere.com
-    if (!emailRegex.test(emailInput.value.trim())) {          // Checks Input valid against regex expression
-    invalidInput(emailHint, emailInput);
-    } else {
-    validInput(emailHint, emailInput);  
-    }
-  };
-
- // Function used to Validate Credit Card Input //
-  function validateCC() {
-    const ccRegex = /^\d{13,16}$/;                            // Credit Card must have 13 - 16 digits
-    if (!ccRegex.test(ccInput.value.trim())) {                // Checks Input valid against regex expression
-    invalidInput(ccHint, ccInput);
-    } else {
-    validInput(ccHint, ccInput);  
-    }
-  };
-
- // Function used to Validate Zip Code Input //
- function validateZip() {
-    const zipRegex = /^\d{5}$/;                               // Valid Zip Code can only have five digits 
-    if (!zipRegex.test(zipInput.value.trim())) {              // Checks Input valid against regex expression
-    invalidInput(zipHint, zipInput);
-    } else {
-    validInput(zipHint, zipInput);  
-    }
- };
-
- // Function used to Validate CVV Input //
-  function validateCVV() {
-    const cvvRegex = /^\d{3}$/;                               // Valid CVV can only have three digits
-    if (!cvvRegex.test(cvvInput.value.trim())) {              // Checks Input valid against regex expression
-    invalidInput(cvvHint, cvvInput);
-    } else {
-    validInput(cvvHint, cvvInput);  
-    }
-  };
-
-// Function Used to Validate the Form Inputs before Submissions
+// Function Used to Validate the Form Inputs
 function validateForm() {
-                                    
+  let isValid = true;                                       //Variable to Store whether Validation is Correct(True) or Not(False)
 
+  // Name Validation //
+  const nameRegex = /^[a-z]+$/;                             // Valid usernames can only contain letters a-z in lowercase     
+  if (!nameRegex.test(nameInput.value.trim())) {            // Checks Input valid against regex expression
+  invalidInput(nameHint, nameInput);  
+  } else {
+  validInput(nameHint, nameInput);  
+  }
 
+  // Validate Email
+  const emailRegex = /^[^@]+@[^@.]+\.[a-z]+$/i;              // Valid Email Addresses are in the correct form. ex. abc@somewhere.com
+  if (!emailRegex.test(emailInput.value.trim())) {          // Checks Input valid against regex expression
+  invalidInput(emailHint, emailInput);
+  } else {
+  validInput(emailHint, emailInput);  
+  }
+
+  // Validate Activities (at least one checkbox checked)
+  const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);        // Creates an array from the workshopCheckBoxes variable and uses .some() to check that at least one box is checked
+  if (!hasSelectedActivity) {
+  isValid = false;
+  activitiesHint.style.display = 'block';                   // Make Activities Hint Visible
+  activitiesBox.classList.remove('valid');                  // Removes Valid styles (checkmark) to parent element   
+  activitiesBox.classList.add('not-valid');                 // Adds the warnign icon
+  } else {
+  activitiesHint.style.display = 'none';                    // Removes Activities Hint Visible
+  activitiesBox.classList.remove('not-valid');              // Removes the warning icon 
+  activitiesBox.classList.add('valid');                     // Add Valid styles (checkmark) to parent element
+  }
+
+  // Validate Credit Card
+  const ccRegex = /^\d{13,16}$/;                            // Credit Card must have 13 - 16 digits
+  if (!ccRegex.test(ccInput.value.trim())) {                // Checks Input valid against regex expression
+  invalidInput(ccHint, ccInput);
+  } else {
+  validInput(ccHint, ccInput);  
+  }
+
+  // Validate Zip Code
+  const zipRegex = /^\d{5}$/;                               // Valid Zip Code can only have five digits 
+  if (!zipRegex.test(zipInput.value.trim())) {              // Checks Input valid against regex expression
+  invalidInput(zipHint, zipInput);
+  } else {
+  validInput(zipHint, zipInput);  
+  }
+
+  // Validate CVV
+  const cvvRegex = /^\d{3}$/;                               // Valid CVV can only have three digits
+  if (!cvvRegex.test(cvvInput.value.trim())) {              // Checks Input valid against regex expression
+  invalidInput(cvvHint, cvvInput);
+  } else {
+  validInput(cvvHint, cvvInput);  
+  }
+
+  return isValid;                                           // Returns Validation check 
 }
 
+// An Even Listener to Give Real Time Validation as Form Input Occurs
+form.addEventListener('change', (e) => {
+  validateForm()
+  });
 
-
-form.addEventListener("change", (e) => {
-  const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);        // Creates an array from the workshopCheckBoxes variable and uses .some() to check that at least one box is checked
-      if (!hasSelectedActivity) {
-            e.preventDefault();
-            invalidInput(activitiesHint, activitiesBox);
-      } else {
-            validInput(activitiesHint, activitiesBox);
-        }  
-  })
-
-
-
-
-
-
-
-
-
-
-// // An Even Listener to Give Real Time Validation as Form Input Occurs
-// form.addEventListener('change', (e) => {
-//   validateForm()
-//   });
-
-// // An Event Listerner to check for final Validation beofre Submission of Form Data
-// form.addEventListener('submit', (e) => {
-// if (!validateForm()) {
-// e.preventDefault();                                       // Prevent form submission if validation fails
-// }
-// });
+// An Event Listerner to check for final Validation beofre Submission of Form Data
+form.addEventListener('submit', (e) => {
+if (!validateForm()) {
+e.preventDefault();                                       // Prevent form submission if validation fails
+}
+});
 
