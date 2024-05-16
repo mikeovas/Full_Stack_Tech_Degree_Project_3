@@ -249,7 +249,7 @@ function validateName() {
     }
   };
 
-// Function used to Validate Activities
+// Function used to Validate Activities //
   function validateActivities() {
     const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);
     if (!hasSelectedActivity) {
@@ -257,14 +257,10 @@ function validateName() {
     } else {
     validInput(activitiesHint, activitiesBox);
     }
-}
+};
 
 
-
-
-
-// Validation of Reat-Time Inputs
-
+// Validation of User Inputs in Real Time //
 nameInput.addEventListener('input', validateName);
 emailInput.addEventListener('input', validateEmail);
 ccInput.addEventListener('input', validateCC);
@@ -273,78 +269,33 @@ cvvInput.addEventListener('input', validateCVV);
 workshopActivities.addEventListener('change', validateActivities);
 
 
+// Function Used to Validate the Form Inputs before Submissions
+function validateForm() {
+  const isNameValid = validateName();
+  const isEmailValid = validateEmail();
+  const isActivitiesValid = validateActivities();
+
+  let isCreditCardValid = true;
+  let isZipValid = true;
+  let isCVVValid = true;
+  
+  if (paymentMethod.value === "credit-card") {
+    isCreditCardValid = validateCC();
+    isZipValid = validateZip();
+    isCVVValid = validateCVV();
+  }
+
+  return isNameValid && isEmailValid && isActivitiesValid && isCreditCardValid && isZipValid && isCVVValid;
+
+};
 
 
+// // An Event Listerner to check for final Validation beofre Submission of Form Data 
+  form.addEventListener('submit', (e) => {
+      if (!validateForm()) {
+        console.log(validateForm());
+      e.preventDefault();                                       // Prevent form submission if validation fails
+      }
+  });
 
-
-
-
-
-
-
-// // Function Used to Validate the Form Inputs before Submissions
-// function validateForm() {
-//   validateName();
-//   validateEmail();
-//   if (paymentMethod.value === "credit-card") {
-//     validateCC();
-//     validateZip();
-//     validateCVV();
-//   }
-
-//   const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);
-//   if (!hasSelectedActivity) {
-//     invalidInput(activitiesHint, activitiesBox);
-//   } else {
-//     validInput(activitiesHint, activitiesBox);
-//   }
-
-//   return isValid;
-// }
-
-
-
-
-
-
-
-
-
-
-
-// form.addEventListener("change", (e) => {
-//   const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);        // Creates an array from the workshopCheckBoxes variable and uses .some() to check that at least one box is checked
-//       if (!hasSelectedActivity) {
-//             e.preventDefault();
-//             invalidInput(activitiesHint, activitiesBox);
-//       } else {
-//             validInput(activitiesHint, activitiesBox);
-//         }  
-//   })
-
-// form.addEventListener("keyup", (e)=>{
-//   validateName();
-//   validateEmail();
-//   validateCC();
-//   validateZip();
-//   validateCVV();
-
-// })
-
-
-
-
-
-
-// // An Even Listener to Give Real Time Validation as Form Input Occurs
-// form.addEventListener('change', (e) => {
-//   validateForm()
-//   });
-
-// // An Event Listerner to check for final Validation beofre Submission of Form Data
-// form.addEventListener('submit', (e) => {
-// if (!validateForm()) {
-// e.preventDefault();                                       // Prevent form submission if validation fails
-// }
-// });
 
