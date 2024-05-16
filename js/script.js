@@ -177,75 +177,83 @@ bitcoinPayment.style.display = selectedPayment === "bitcoin" ? "block" : "none";
 //**  Form Validation Section  **//
 //*******************************//
 
-let isValid = "";                                            //Variable to Store whether Validation is Correct(True) or Not(False)
-
-//Functions Used to Add Valid Styles to Inputs if Valid or Error Styles to the Inputs if Invalid //
+//** Functions Used to Add Valid Styles to Inputs if Valid or Error Styles to the Inputs if Invalid **//
 
 // Adds styles for Valid Inputs and Removes styles for Invalid Inputs //
 function validInput(hint, input) {
-    isValid = true;
-    hint.style.display = 'none';                              // Removes input hint
-    input.classList.remove('error');                          // Removes error styles from input box
-    input.parentElement.classList.remove('not-valid');        // Remove warning icon from the parent Label            
-    input.parentElement.classList.add('valid');               // Add Valid styles (checkmark) to parent element of input box
+    hint.style.display = 'none';                                                        // Removes input hint
+    input.classList.remove('error');                                                    // Removes error styles from input box
+    input.parentElement.classList.remove('not-valid');                                  // Remove Warning icon from the parent element of input box (Label)         
+    input.parentElement.classList.add('valid');                                         // Add Valid styles (checkmark) to parent element of input box (Label)
 };
 
 // Adds styles for Invalid Inputs and Removes styles for Valid Inputs //
 function invalidInput(hint, input) {
-    isValid = false;
-    hint.style.display = 'block';                             // Makes Input Hint visible
-    input.classList.add('error');                             // Applies error styles to the input box
-    input.parentElement.classList.remove('valid');            // Removes Valid styles (checkmark) from input's parent Label   
-    input.parentElement.classList.add('not-valid');           // Add the warning icon to the parent Label              
+    hint.style.display = 'block';                                                       // Makes Input Hint visible
+    input.classList.add('error');                                                       // Applies error styles to the input box
+    input.parentElement.classList.remove('valid');                                      // Removes Valid styles (checkmark) from input's parent element of input box (Label)  
+    input.parentElement.classList.add('not-valid');                                     // Add the warning icon to the parent element of input box (Label)            
 };
+
+//** Functions Used to Validate Inputs **/
 
 // Function used to Validate Name Input //
 function validateName() {
-    const nameRegex = /^[a-z]+$/;                             // Valid usernames can only contain letters a-z in lowercase     
-    if (!nameRegex.test(nameInput.value.trim())) {            // Checks Input valid against regex expression
-    invalidInput(nameHint, nameInput);  
+    const nameRegex = /^[a-z]+$/;                                                       // Valid usernames can only contain letters a-z in lowercase     
+    if (!nameRegex.test(nameInput.value.trim())) {                                      // Checks Input valid against regex expression
+    invalidInput(nameHint, nameInput);
+    return false;  
     } else {
-    validInput(nameHint, nameInput);  
+    validInput(nameHint, nameInput); 
+    return true; 
     }
   };
 
  // Function used to Validate Email Input //
   function validateEmail() {
-    const emailRegex = /^[^@]+@[^@.]+\.[a-z]+$/i;              // Valid Email Addresses are in the correct form. ex. abc@somewhere.com
-    if (!emailRegex.test(emailInput.value.trim())) {          // Checks Input valid against regex expression
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;            // Valid Email Addresses are in the correct form. ex. abc@somewhere.com
+    if (!emailRegex.test(emailInput.value.trim())) {                                  // Checks Input valid against regex expression
     invalidInput(emailHint, emailInput);
+    return false;
     } else {
-    validInput(emailHint, emailInput);  
+    validInput(emailHint, emailInput);
+    return true;  
     }
   };
 
  // Function used to Validate Credit Card Input //
   function validateCC() {
-    const ccRegex = /^\d{13,16}$/;                            // Credit Card must have 13 - 16 digits
-    if (!ccRegex.test(ccInput.value.trim())) {                // Checks Input valid against regex expression
+    const ccRegex = /^\d{13,16}$/;                                                    // Credit Card must have 13 - 16 digits
+    if (!ccRegex.test(ccInput.value.trim())) {                                        // Checks Input valid against regex expression
     invalidInput(ccHint, ccInput);
+    return false;
     } else {
-    validInput(ccHint, ccInput);  
+    validInput(ccHint, ccInput);
+    return true;  
     }
   };
 
  // Function used to Validate Zip Code Input //
  function validateZip() {
-    const zipRegex = /^\d{5}$/;                               // Valid Zip Code can only have five digits 
-    if (!zipRegex.test(zipInput.value.trim())) {              // Checks Input valid against regex expression
+    const zipRegex = /^\d{5}$/;                                                      // Valid Zip Code can only have five digits 
+    if (!zipRegex.test(zipInput.value.trim())) {                                     // Checks Input valid against regex expression
     invalidInput(zipHint, zipInput);
+    return false;
     } else {
-    validInput(zipHint, zipInput);  
+    validInput(zipHint, zipInput);
+    return true;  
     }
  };
 
  // Function used to Validate CVV Input //
   function validateCVV() {
-    const cvvRegex = /^\d{3}$/;                               // Valid CVV can only have three digits
-    if (!cvvRegex.test(cvvInput.value.trim())) {              // Checks Input valid against regex expression
+    const cvvRegex = /^\d{3}$/;                                                     // Valid CVV can only have three digits
+    if (!cvvRegex.test(cvvInput.value.trim())) {                                    // Checks Input valid against regex expression
     invalidInput(cvvHint, cvvInput);
+    return false;
     } else {
-    validInput(cvvHint, cvvInput);  
+    validInput(cvvHint, cvvInput);
+    return true;  
     }
   };
 
@@ -254,13 +262,33 @@ function validateName() {
     const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);
     if (!hasSelectedActivity) {
     invalidInput(activitiesHint, activitiesBox);
+    return false;
     } else {
     validInput(activitiesHint, activitiesBox);
+    return true;
     }
 };
 
+// Function Used to Validate the Form Inputs Before Submissions //
+  function validateForm() {
+    const isNameValid = validateName();
+    const isEmailValid = validateEmail();
+    const isActivitiesValid = validateActivities();
+    let isCreditCardValid = true;
+    let isZipValid = true;
+    let isCVVValid = true;
+    if (paymentMethod.value === "credit-card") {
+      isCreditCardValid = validateCC();
+      isZipValid = validateZip();
+      isCVVValid = validateCVV();
+    }
+  return isNameValid && isEmailValid && isActivitiesValid && isCreditCardValid && isZipValid && isCVVValid;
+};
 
-// Validation of User Inputs in Real Time //
+
+//** Event Listeners to Check Form VAlidation in both Real TIme and Upon Submission **//
+
+// Event Listeners for the Validation of User Inputs in Real Time //
 nameInput.addEventListener('input', validateName);
 emailInput.addEventListener('input', validateEmail);
 ccInput.addEventListener('input', validateCC);
@@ -268,33 +296,10 @@ zipInput.addEventListener('input', validateZip);
 cvvInput.addEventListener('input', validateCVV);
 workshopActivities.addEventListener('change', validateActivities);
 
-
-// Function Used to Validate the Form Inputs before Submissions
-function validateForm() {
-  const isNameValid = validateName();
-  const isEmailValid = validateEmail();
-  const isActivitiesValid = validateActivities();
-
-  let isCreditCardValid = true;
-  let isZipValid = true;
-  let isCVVValid = true;
-  
-  if (paymentMethod.value === "credit-card") {
-    isCreditCardValid = validateCC();
-    isZipValid = validateZip();
-    isCVVValid = validateCVV();
-  }
-
-  return isNameValid && isEmailValid && isActivitiesValid && isCreditCardValid && isZipValid && isCVVValid;
-
-};
-
-
-// // An Event Listerner to check for final Validation beofre Submission of Form Data 
+// An Event Listerner for the Final Validation Before Submission of Form Data //
   form.addEventListener('submit', (e) => {
       if (!validateForm()) {
-        console.log(validateForm());
-      e.preventDefault();                                       // Prevent form submission if validation fails
+      e.preventDefault();                                                         // Prevent form submission if validation fails
       }
   });
 
