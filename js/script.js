@@ -249,28 +249,87 @@ function validateName() {
     }
   };
 
-// Function Used to Validate the Form Inputs before Submissions
-function validateForm() {
-                                    
-
-
+// Function used to Validate Activities
+  function validateActivities() {
+    const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);
+    if (!hasSelectedActivity) {
+    invalidInput(activitiesHint, activitiesBox);
+    } else {
+    validInput(activitiesHint, activitiesBox);
+    }
 }
 
 
 
-form.addEventListener("change", (e) => {
-  const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);        // Creates an array from the workshopCheckBoxes variable and uses .some() to check that at least one box is checked
-      if (!hasSelectedActivity) {
-            e.preventDefault();
-            invalidInput(activitiesHint, activitiesBox);
-      } else {
-            validInput(activitiesHint, activitiesBox);
-        }  
-  })
+
+
+// Validation of Reat-Time Inputs
+
+nameInput.addEventListener('input', validateName);
+emailInput.addEventListener('input', validateEmail);
+ccInput.addEventListener('input', validateCC);
+zipInput.addEventListener('input', validateZip);
+cvvInput.addEventListener('input', validateCVV);
+workshopActivities.addEventListener('change', validateActivities);
 
 
 
 
+
+
+
+
+
+
+
+// // Function Used to Validate the Form Inputs before Submissions
+// function validateForm() {
+//   validateName();
+//   validateEmail();
+//   if (paymentMethod.value === "credit-card") {
+//     validateCC();
+//     validateZip();
+//     validateCVV();
+//   }
+
+//   const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);
+//   if (!hasSelectedActivity) {
+//     invalidInput(activitiesHint, activitiesBox);
+//   } else {
+//     validInput(activitiesHint, activitiesBox);
+//   }
+
+//   return isValid;
+// }
+
+
+
+
+
+
+
+
+
+
+
+// form.addEventListener("change", (e) => {
+//   const hasSelectedActivity = Array.from(workshopCheckBoxes).some((checkbox) => checkbox.checked);        // Creates an array from the workshopCheckBoxes variable and uses .some() to check that at least one box is checked
+//       if (!hasSelectedActivity) {
+//             e.preventDefault();
+//             invalidInput(activitiesHint, activitiesBox);
+//       } else {
+//             validInput(activitiesHint, activitiesBox);
+//         }  
+//   })
+
+// form.addEventListener("keyup", (e)=>{
+//   validateName();
+//   validateEmail();
+//   validateCC();
+//   validateZip();
+//   validateCVV();
+
+// })
 
 
 
