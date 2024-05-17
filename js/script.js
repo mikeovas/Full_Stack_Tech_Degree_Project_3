@@ -39,8 +39,10 @@ const zipInput = document.getElementById("zip");
 const cvvInput = document.getElementById("cvv");
 
 // Variables for Input Hints
-const nameHint = document.getElementById("name-hint");
-const emailHint = document.getElementById("email-hint");
+const nameHint1 = document.getElementById("name-hint-1");
+const nameHint2 = document.getElementById("name-hint-2");
+const emailHint1 = document.getElementById("email-hint-1");
+const emailHint2 = document.getElementById("email-hint-2");
 const activitiesHint = document.getElementById("activities-hint");
 const ccHint = document.getElementById("cc-hint");
 const zipHint = document.getElementById("zip-hint");
@@ -137,20 +139,19 @@ if(element.disabled) {
   element.parentElement.classList.remove("disabled");                                    // Adds the disabled class to all activities that have same day and time attributes
 }
 });
-    
+}); 
+
 // Give checked checkboxes Focus and Remove focus from unchecked checkboxes      
 workshopCheckBoxes.forEach( (box) => {
   box.addEventListener("focus", (e) => {
   box.parentElement.classList.add("focus");
   });
+  box.addEventListener("blur", (e) => {
+    box.parentElement.classList.remove("focus");
+    });
 });
 
-workshopCheckBoxes.forEach( (box) => {
-  box.addEventListener("blur", (e) => {
-  box.parentElement.classList.remove("focus");
-  });
-});
-});
+
     
 
 //***********************//
@@ -195,16 +196,21 @@ function invalidInput(hint, input) {
     input.parentElement.classList.add('not-valid');                                     // Add the warning icon to the parent element of input box (Label)            
 };
 
-//** Functions Used to Validate Inputs **/
+// ** Functions Used to Validate Inputs **/
 
-// Function used to Validate Name Input //
+// // Function used to Validate Name Input //
 function validateName() {
-    const nameRegex = /^[a-z]+$/;                                                       // Valid usernames can only contain letters a-z in lowercase     
-    if (!nameRegex.test(nameInput.value.trim())) {                                      // Checks Input valid against regex expression
-    invalidInput(nameHint, nameInput);
-    return false;  
+    const nameRegex = /^[a-zA-Z]+ [a-zA-Z]+$/;                                         // Valid usernames can contain capital and small letters with a space between the first and last name  
+    if(nameInput.value === "") {                                                       // Checks if name input is blank
+      invalidInput(nameHint1, nameInput);                                              // Applies first name hint to enter a user name if name input blank
+    return false; 
+    } else if(!nameRegex.test(nameInput.value.trim())) {                               // Checks Name Input is valid against regex expression for correct format
+      validInput(nameHint1, nameInput);                                                // Removes the name hint for a blank name input field
+      invalidInput(nameHint2, nameInput);                                              // Applies a second name hint for incorrect format                           
+    return false;       
     } else {
-    validInput(nameHint, nameInput); 
+      validInput(nameHint1, nameInput);                                                // Removes the name hint for a blank name input field
+      validInput(nameHint2, nameInput);                                                // Removes the name hint for correct formatting if name input is valid
     return true; 
     }
   };
@@ -212,12 +218,17 @@ function validateName() {
  // Function used to Validate Email Input //
   function validateEmail() {
     const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;            // Valid Email Addresses are in the correct form. ex. abc@somewhere.com
-    if (!emailRegex.test(emailInput.value.trim())) {                                  // Checks Input valid against regex expression
-    invalidInput(emailHint, emailInput);
-    return false;
+    if(emailInput.value === "") {                                                     // Checks if email input is blank
+      invalidInput(emailHint1, emailInput);                                           // Applies first email hint to enter an email address if email input is blank
+      return false; 
+    } else if(!emailRegex.test(emailInput.value.trim())) {                            // Checks Input valid against regex expression for correct format 
+      validInput(emailHint1, emailInput);                                             // Removes email hint for a blank email input field
+      invalidInput(emailHint2, emailInput);                                           // Applies the second email hint for incorrect format
+      return false;
     } else {
-    validInput(emailHint, emailInput);
-    return true;  
+      validInput(emailHint1, emailInput);                                             // Removes email hint for a blank email input field
+      validInput(emailHint2, emailInput);                                             // Removes the email hint for correct formatting if email input is valid
+      return true;  
     }
   };
 
@@ -286,7 +297,7 @@ function validateName() {
 };
 
 
-//** Event Listeners to Check Form VAlidation in both Real TIme and Upon Submission **//
+//** Event Listeners to Check Form Validation in both Real Time and Upon Submission **//
 
 // Event Listeners for the Validation of User Inputs in Real Time //
 nameInput.addEventListener('input', validateName);
@@ -296,10 +307,10 @@ zipInput.addEventListener('input', validateZip);
 cvvInput.addEventListener('input', validateCVV);
 workshopActivities.addEventListener('change', validateActivities);
 
-// An Event Listerner for the Final Validation Before Submission of Form Data //
+// An Event Listener for the Final Validation Before Submission of Form Data //
   form.addEventListener('submit', (e) => {
-      if (!validateForm()) {
-      e.preventDefault();                                                         // Prevent form submission if validation fails
+      if (!validateForm()) {                                                      // Checks to ensure all functions that validate the fields all return true values in order to submit the form
+      e.preventDefault();                                                         // Prevent form submission if validation fails for any of the functions checking validation
       }
   });
 
